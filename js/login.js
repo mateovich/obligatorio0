@@ -1,9 +1,11 @@
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
+
+var usuariologueado = true;
 document.addEventListener("DOMContentLoaded", function(e){
     document.getElementById("entrar").addEventListener("click", function () {
-        let usuario = document.getElementById("user");
+        var usuario = document.getElementById("user");
         let contrasenia = document.getElementById("contrasenia");
         let todolisto = false;
         let usuarioIngresado = false;
@@ -33,6 +35,10 @@ document.addEventListener("DOMContentLoaded", function(e){
             window.location = "inicio.html";
         } else {
             alert("ingrese todo los datos");
+        }
+        if (todolisto) {
+            localStorage.setItem(`usuario`, user.value);
+            usuariologueado = true;
         }
     });
 });
