@@ -8,6 +8,10 @@ var busqueda = "";
 
 var lista_productos = [];
 
+function cargarproducto(id_producto){
+    localStorage.setItem('producto', JSON.stringify({ productoId: id_producto}));
+};
+
 function sortProductos(array, criterio) {
     let lista_modificada = [];
     if (criterio === "2") {
@@ -42,10 +46,12 @@ function listar(productos) {
         if ((((pricMin == undefined) || (pricMin != undefined && parseInt(producto.cost) >= pricMin)) 
         && ((pricMax == undefined) || (pricMax != undefined && parseInt(producto.cost) <= pricMax))) 
         && (busqueda == undefined || (producto.name.toLowerCase().includes(busqueda)) || (producto.description.toLowerCase().includes(busqueda)))) {
-            cont_productos += producto.name + "<br>";
+            cont_productos += `<img style="float:left marge:" src="${producto.imgSrc}" width="150px" height="100px" >`;
+            cont_productos += `<a onclick="cargarproducto('`+i+`')" href="product-info.html">`+producto.name+`</a>` + "<br>";
             cont_productos += producto.description + "<br>";
-            cont_productos += "$$ " + producto.cost + " " + producto.currency + "      ";
-            cont_productos += "vendidos: " + producto.soldCount + "<br><hr><br>";
+            cont_productos += "$$ " + producto.cost + " " + producto.currency;
+            cont_productos += "vendidos: " + producto.soldCount;
+            cont_productos += "<br><hr><br>";
 
         }
 

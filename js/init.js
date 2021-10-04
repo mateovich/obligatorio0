@@ -11,58 +11,69 @@ var usuariologueado = false;
 var hayrotulo = false;
 var usuario_estado = localStorage.getItem("usuario");
 
-var showSpinner = function(){
+var showSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "block";
 }
 
-var hideSpinner = function(){
+var hideSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "none";
 }
 
-var getJSONData = function(url){
-    var result = {};
-    showSpinner();
-    return fetch(url)
+var getJSONData = function (url) {
+  var result = {};
+  showSpinner();
+  return fetch(url)
     .then(response => {
       if (response.ok) {
         return response.json();
-      }else{
+      } else {
         throw Error(response.statusText);
       }
     })
-    .then(function(response) {
-          result.status = 'ok';
-          result.data = response;
-          hideSpinner();
-          return result;
+    .then(function (response) {
+      result.status = 'ok';
+      result.data = response;
+      hideSpinner();
+      return result;
     })
-    .catch(function(error) {
-        result.status = 'error';
-        result.data = error;
-        hideSpinner();
-        return result;
-      });
-    }
-    
-    if  (localStorage.getItem(`usuario`)) {
-      usuariologueado = true;
-    };
-    
-document.addEventListener(`DOMContentLoaded`, function(){
+    .catch(function (error) {
+      result.status = 'error';
+      result.data = error;
+      hideSpinner();
+      return result;
+    });
+}
+
+if (localStorage.getItem(`usuario`)) {
+  usuariologueado = true;
+};
+
+document.addEventListener(`DOMContentLoaded`, function () {
   var rotulo = document.getElementsByClassName("container d-flex flex-column flex-md-row justify-content-between");
   if (rotulo.length > 0) {
-    hayrotulo = true};
-    
+    hayrotulo = true
+  };
+
   if (hayrotulo && usuariologueado) {
-    
-    let usuarioAmeter = document.createElement("a");
+
+    /* let usuarioAmeter = document.createElement("a");
     usuarioAmeter.innerHTML += usuario_estado;
     usuarioAmeter.classList.add("py-2", "d-none", "d-md-inline-block");
     usuarioAmeter.setAttribute("href", "my-profile.html");
-    rotulo[0].appendChild(usuarioAmeter);
+    rotulo[0].appendChild(usuarioAmeter); */
+
+    let usuarioAmeter = rotulo[0];
+    usuarioAmeter.innerHTML += `
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="desplegableusuario" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">` + usuario_estado + `</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="cart.html">Mi carrito</a>
+        <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
+        <a class="dropdown-item" href="index.html">Cerrar sesión</a>
+      </div>`
   };
-  
-  
+
+
 });
 
 
