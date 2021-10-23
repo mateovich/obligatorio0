@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             lista_productos = sortProductos(lista_productos, orden);
             listar(lista_productos);
         }
+        
     });
 });
 
