@@ -29,6 +29,17 @@ function updateTotalCosts(){
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
+
+
+        /* verificador de inicio */
+        if (!(localStorage.getItem("loguedUser") == "true")) {
+            localStorage.setItem('login-need', JSON.stringify({
+                pag: "my-profile.html"
+            }));
+            window.location = "sell.html"
+        }
+
+
     document.getElementById("productCountInput").addEventListener("change", function(){
         productCount = this.value;
         updateTotalCosts();

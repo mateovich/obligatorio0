@@ -8,8 +8,8 @@ var busqueda = "";
 
 var lista_productos = [];
 
-function cargarproducto(id_producto){
-    localStorage.setItem('producto', JSON.stringify({ productoId: id_producto}));
+function cargarproducto(id_producto) {
+    localStorage.setItem('producto', JSON.stringify({ productoId: id_producto }));
 };
 
 function sortProductos(array, criterio) {
@@ -39,19 +39,34 @@ function sortProductos(array, criterio) {
 }
 
 function listar(productos) {
-    let cont_productos = "<br><hr><br>";
+    let cont_productos = "";
 
     for (let i = 0; i < productos.length; i++) {
         let producto = productos[i];
-        if ((((pricMin == undefined) || (pricMin != undefined && parseInt(producto.cost) >= pricMin)) 
-        && ((pricMax == undefined) || (pricMax != undefined && parseInt(producto.cost) <= pricMax))) 
-        && (busqueda == undefined || (producto.name.toLowerCase().includes(busqueda)) || (producto.description.toLowerCase().includes(busqueda)))) {
-            cont_productos += `<img style="float:left marge:" src="${producto.imgSrc}" width="150px" height="100px" >`;
+        if ((((pricMin == undefined) || (pricMin != undefined && parseInt(producto.cost) >= pricMin))
+            && ((pricMax == undefined) || (pricMax != undefined && parseInt(producto.cost) <= pricMax)))
+            && (busqueda == undefined || (producto.name.toLowerCase().includes(busqueda)) || (producto.description.toLowerCase().includes(busqueda)))) {
+            /* cont_productos += `<div><img src="${producto.imgSrc}" width="150px" height="100px" >`;
             cont_productos += `<a onclick="cargarproducto('`+i+`')" href="product-info.html">`+producto.name+`</a>` + "<br>";
             cont_productos += producto.description + "<br>";
-            cont_productos += "$$ " + producto.cost + " " + producto.currency;
-            cont_productos += "vendidos: " + producto.soldCount;
-            cont_productos += "<br><hr><br>";
+            cont_productos += "$$ " + producto.cost + " " + producto.currency + "  ";
+            cont_productos += "vendidos: " + producto.soldCount + "</div>"; */
+            cont_productos +=
+                                    `<div class="col-md-6 col-12"
+                                            <div class="card shadow-sm mb-6">
+                                                <img class="bd-placeholder-img card-img-top" src="${producto.imgSrc}">
+                                                    <div class="card-body">
+                                                    <h5 class="card-title row">
+                                                    <div class="col-6"><a id="link_${i}" onclick="caragarproducto(${i})" href="product-info.html"><p>${producto.name}</p></a></div><div class="col-6">${producto.cost} ${producto.currency}</div></h5>
+                                                    
+                                                        <div class="card-text">
+                                                            <div class="row"><p>${producto.description}</p></div>
+                                                            <div class="row"><p>vendidos: ${producto.soldCount}</p></div>
+                                                        </div>
+                                                    
+                                                    </div>
+                                            </div>
+                                    </div>`
 
         }
 
@@ -66,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             lista_productos = sortProductos(lista_productos, orden);
             listar(lista_productos);
         }
-        
+
     });
 });
 

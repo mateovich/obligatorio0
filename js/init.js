@@ -10,7 +10,8 @@ const CART_CPRODUCT = "https://japdevdep.github.io/ecommerce-api/cart/654.json";
 
 var usuariologueado = false;
 var hayrotulo = false;
-var usuario_estado = localStorage.getItem("usuario");
+var usuario_estado = "";
+var datosUser = {}
 
 var showSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "block";
@@ -45,33 +46,40 @@ var getJSONData = function (url) {
     });
 }
 
-if (localStorage.getItem(`usuario`)) {
+if (localStorage.getItem("datos")) {
   usuariologueado = true;
+  let datosaIngresar_json = localStorage.getItem("datos");
+  datosUser = JSON.parse(datosaIngresar_json);
+  usuario_estado = datosUser.usuario;
+
 };
 
+function cerrarSesion() {
+  localStorage.removeItem('datos');
+  localStorage.removeItem('loguedUser');
+}
+
+/* Colocador de inicio sesion en el encabezado */
 document.addEventListener(`DOMContentLoaded`, function () {
   var rotulo = document.getElementsByClassName("container d-flex flex-column flex-md-row justify-content-between");
   if (rotulo.length > 0) {
     hayrotulo = true
   };
 
-  if (hayrotulo && usuariologueado) {
-
-    /* let usuarioAmeter = document.createElement("a");
-    usuarioAmeter.innerHTML += usuario_estado;
-    usuarioAmeter.classList.add("py-2", "d-none", "d-md-inline-block");
-    usuarioAmeter.setAttribute("href", "my-profile.html");
-    rotulo[0].appendChild(usuarioAmeter); */
-
+  if (hayrotulo) {
     let usuarioAmeter = rotulo[0];
-    usuarioAmeter.innerHTML += `
+    if (usuariologueado) {
+      usuarioAmeter.innerHTML += `
       <button class="btn btn-secondary dropdown-toggle" type="button" id="desplegableusuario" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">` + usuario_estado + `</button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="cart.html">Mi carrito</a>
         <a class="dropdown-item" href="my-profile.html">Mi perfil</a>
-        <a class="dropdown-item" href="index.html">Cerrar sesión</a>
-      </div>`
+        <a class="dropdown-item" href="index.html" onclick="cerrarSesion()">Cerrar sesión</a>
+      </div>` }
+    else {
+      usuarioAmeter.innerHTML += '<a class="py-2 d-none d-md-inline-block" href="index.html">Iniciar Sesión</a>'
+    }
   };
 
 

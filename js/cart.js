@@ -7,7 +7,7 @@ var tasa_envio = 0.15;
 
 function PrecSubtotal() {
     let listaPrecios = document.getElementsByClassName("precxcant");
-    
+
 
     let subTotal = 0;
     for (let i = 0; i < listaPrecios.length; i++) {
@@ -62,6 +62,15 @@ function contar(array) {
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {
+
+    /* verificador de inicio */
+    if (!(localStorage.getItem("loguedUser") == "true")) {
+        localStorage.setItem('login-need', JSON.stringify({
+            pag: "my-profile.html"
+        }));
+        window.location = "cart.html"
+    }
+
     getJSONData(CART_CPRODUCT).then(function (result) {
         if (result.status === "ok") {
             productos_en_carro = result.data;
