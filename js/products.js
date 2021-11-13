@@ -8,8 +8,9 @@ var busqueda = "";
 
 var lista_productos = [];
 
-function cargarproducto(id_producto) {
-    localStorage.setItem('producto', JSON.stringify({ productoId: id_producto }));
+function cargarproducto (id_producto) {
+    console.log("oeoi")
+    localStorage.setItem('producto', id_producto);
 };
 
 function sortProductos(array, criterio) {
@@ -57,7 +58,7 @@ function listar(productos) {
                                                 <img class="bd-placeholder-img card-img-top" src="${producto.imgSrc}">
                                                     <div class="card-body">
                                                     <h5 class="card-title row">
-                                                    <div class="col-6"><a id="link_${i}" onclick="caragarproducto(${i})" href="product-info.html"><p>${producto.name}</p></a></div><div class="col-6">${producto.cost} ${producto.currency}</div></h5>
+                                                    <div class="col-6"><a id="link_${i}" onclick="cargarproducto('${producto.name}')" href="product-info.html"><p>${producto.name}</p></a></div><div class="col-6">${producto.cost} ${producto.currency}</div></h5>
                                                     
                                                         <div class="card-text">
                                                             <div class="row"><p>${producto.description}</p></div>

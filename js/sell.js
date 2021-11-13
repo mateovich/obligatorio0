@@ -34,9 +34,9 @@ document.addEventListener("DOMContentLoaded", function(e){
         /* verificador de inicio */
         if (!(localStorage.getItem("loguedUser") == "true")) {
             localStorage.setItem('login-need', JSON.stringify({
-                pag: "my-profile.html"
+                pag: "sell.html"
             }));
-            window.location = "sell.html"
+            window.location = "index.html"
         }
 
 

@@ -107,6 +107,121 @@
         .selector_envio input:not(input:checked)+.opcion_envio:hover {
             background-color: #3e8e41;
         }
+
+        /* modal ----- */
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modalCont {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        @keyframes animatetop {
+            form {
+                top: -300px;
+                opacity: 0;
+            }
+
+            to {
+                top: 0;
+                opacity: 1;
+            }
+        }
+
+        .cerrar {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .cerrar:hover,
+        .cerrar:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modalCab {
+            padding: 2px 16px;
+            background-color: #be9c00;
+            color: white;
+        }
+
+        .modalCuerp {
+            padding: 2px 16px;
+        }
+
+        .modalPie {
+            padding: 2px 16px;
+            background-color: #be9c00;
+            color: white;
+        }
+
+        /*---*/
+        /*modal2*/
+
+        .modal2 {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /*---*/
+        .grid-container-modal2 {
+            display: grid;
+            grid-template-areas: 
+            'left left right right right right ';
+        }
+        .left-mdl-bdy { grid-area: left;        }
+        .right-mdl-bdy { grid-area: right;}
+
+
     </style>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
@@ -128,123 +243,230 @@
             <div class="listado_carro col-md-8 col-sm-12">
                 <h1 style="text-align:center;"><strong>Mi Carrito:</strong></h1>
                 <div id="listado_carro">
-
                 </div>
             </div>
             <div id="cuenta" class="cuenta col-md-4 col-sm-12">
-                <div class="row-1">
-                    <div>
-                        <p style="text-align:center;"><Strong>Subtotal:</Strong>
-                            <a id="subtotal"></a>
-                            <a> $UYU</a>
-                        </p>
-                    </div>
-
-                    <div class="row-1">
-                        <div style="text-align: center;">
-                            <div class="row">
-                                <p>Seleccione su dirección:</p>
+                <div>
+                    <form id="formCompra" novalidate>
+                        <div>
+                            <div class="row-1">
+                                <div>
+                                    <p style="text-align:center;"><Strong>Subtotal:</Strong>
+                                        <a id="subtotal"></a>
+                                        <a> $USD</a>
+                                    </p>
+                                </div>
+                                <div class="row-1">
+                                    <div style="text-align: center;">
+                                        <div class="row">
+                                            <p>Seleccione su dirección:</p>
+                                        </div>
+                                        <div style="text-align: center;" class="row">
+                                            <div style="margin-right: 15px;" class="col">
+                                                <select id="selectorPais" class="input input_pag" required>
+                                                    <option selected disabled value="">Seleccione su país</option>
+                                                    <option value="uy">Uruguay</option>
+                                                    <option value="ar">Argentina</option>
+                                                    <option value="br">Brasil</option>
+                                                    <option value="py">Paraguay</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" placeholder="Localidad" class="input input_pag"
+                                                    required>
+                                                <input type="text" placeholder="Calle" class="input input_pag" required>
+                                                <input type="number" min="1" max="1000" placeholder="Número"
+                                                    class="input input_pag" required>
+                                                <input type="text" placeholder="Esquina" class="input input_pag"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
                             </div>
-                            <div style="text-align: center;" class="row">
-                                <div style="margin-right: 15px;" class="col">
-                                    <select id="selectorPais">
-                                        <option selected disabled hidden>País</option>
-                                        <option value="Uruguay">Uruguay</option>
-                                        <option value="Argentina">Argentina</option>
-                                        <option value="Brasil">Brasil</option>
-                                        <option value="Paraguay">Paraguay</option>
-                                    </select>
+
+                            <div>
+                                <div class="row">
+                                    <div id="selector_envio" class="selector_envio col-5">
+                                        <p>Seleccione su forma de envío:</p>
+                                        <input type="radio" required name="tipo_envio" id="opcion_stand"
+                                            onchange="opcion_env(0.05)" value="stand"
+                                            class="radio_envio input input_pag">
+                                        <label for="opcion_stand" class="opcion_envio">
+                                            <span class="checkmark">Standard<p class="descr">12-15 días (+5%)</p></span>
+                                        </label>
+                                        <input type="radio" name="tipo_envio" id="opcion_expr"
+                                            onchange="opcion_env(0.07)" value="expr"
+                                            class="radio_envio input input_pag">
+                                        <label for="opcion_expr" class="opcion_envio">
+                                            <span class="checkmark">Express<p class="descr">5-8 días (+7%)</p></span>
+                                        </label>
+                                        <input type="radio" name="tipo_envio" id="opcion_prem"
+                                            onchange="opcion_env(0.15)" value="prem" checked
+                                            class="radio_envio input input_pag">
+                                        <label for="opcion_prem" class="opcion_envio">
+                                            <span class="checkmark">Premium<p class="descr">2-5 días (15%)</p></span>
+                                        </label>
+                                    </div>
+                                    <br>
+                                    <div class="col">
+                                        <div class="selector_formaPago">
+                                            <p>Seleccione su forma de pago:</p>
+                                            <div class="opcion_pago">
+                                                <label for="TC" class="logos nobr" ondblclick="openModal(modal1)">
+                                                    <input type="radio" onchange="formaPago(`TC`)" name="tipo_pago"
+                                                        id="TC" value="tarjeta de crédito"
+                                                        class="radio_pago input input_pag">
+                                                    <span class="enlinea">
+                                                        <p class="forma_de_pago"><img src="img/tarjetadecreditologo.png"
+                                                                alt="tarjeta de credito" style="width: 10%;">
+                                                            Tarjeta de crédito</p>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="opcion_pago">
+                                                <label for="TB" class="logos nobr" ondblclick="openModal(modal1)">
+                                                    <input type="radio" onchange="formaPago(`TB`)" name="tipo_pago"
+                                                        id="TB" value="transferencia bancaria"
+                                                        class="radio_pago input input_pag">
+                                                    <span class="enlinea">
+                                                        <p class="forma_de_pago"><img
+                                                                src="img/transferencia bancaria.png"
+                                                                alt="transferencia bancaria" style="width: 10%;">
+                                                            Transferencia bancaria</p>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="opcion_pago">
+                                                <label for="BTC" class="logos nobr" ondblclick="openModal(modal1)">
+                                                    <input type="radio" onchange="formaPago(`BTC`)" name="tipo_pago"
+                                                        id="BTC" value="bitcoin" class="radio_pago input input_pag">
+                                                    <span class="enlinea">
+                                                        <p class="forma_de_pago"><img src="img/logobitcoin.png"
+                                                                alt="lobo bitcoin" style="width: 10%;" class="nobr">
+                                                            Bitcoin</p>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" class="input input_pag" required>Acepto los <a
+                                                    href="Letra.pdf">terminos y condiciones.</a></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>Costo del envío:</strong>
+                                        <a id="costEnv"></a>
+                                        <a>$USD</a>
+                                    </p>
+                                    <p><Strong>Total:</Strong>
+                                        <a id="total"></a>
+                                        <a>$USD</a>
+                                    </p>
                                 </div>
                                 <div class="col">
-                                    <input type="text" placeholder="Localidad">
-                                    <input type="text" placeholder="Calle">
-                                    <input type="text" placeholder="Número">
-                                    <input type="text" placeholder="Esquina">
+                                    <button id="btncomprar" type="button" onclick="verificadorCompra()"
+                                        class="btn btn-primary" disabled>Comprar</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="row">
-                    <div class="row">
-                        <div id="selector_envio" class="selector_envio col-5">
-                            <p>Seleccione su forma de envío:</p>
-                            <input type="radio" name="tipo_envio" id="opcion_stand" onchange="opcion_env(0.05)"
-                                value="stand" class="radio_envio" checked>
-                            <label for="opcion_stand" class="opcion_envio">
-                                <span class="checkmark">Standard<p class="descr">12-15 días (+5%)</p></span>
-                            </label>
-                            <input type="radio" name="tipo_envio" id="opcion_expr" onchange="opcion_env(0.07)"
-                                value="expr" class="radio_envio">
-                            <label for="opcion_expr" class="opcion_envio">
-                                <span class="checkmark">Express<p class="descr">5-8 días (+7%)</p></span>
-                            </label>
-                            <input type="radio" name="tipo_envio" id="opcion_prem" onchange="opcion_env(0.15)"
-                                value="prem" class="radio_envio">
-                            <label for="opcion_prem" class="opcion_envio">
-                                <span class="checkmark">Premium<p class="descr">2-5 días (15%)</p></span>
-                            </label>
-                        </div>
-                        <br>
-                        <div class="col">
-                            <p>Seleccione su forma de pago:</p>
-                            <div class="opcion_pago">
-                                <label for="tarjeta_credito" class="logos nobr">
-                                    <input type="radio" name="tipo_pago" id="tarjeta_credito" value="tarjeta de crédito"
-                                        class="radio_pago">
-                                    <span class="enlinea">
-                                        <p class="forma_de_pago"><img src="img/tarjetadecreditologo.png"
-                                                alt="tarjeta de credito" style="width: 10%;">
-                                            Tarjeta de crédito</p>
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="opcion_pago">
-                                <label for="transf_bancaria" class="logos nobr">
-                                    <input type="radio" name="tipo_pago" id="transf_bancaria"
-                                        value="transferencia bancaria" class="radio_pago">
-                                    <span class="enlinea">
-                                        <p class="forma_de_pago"><img src="img/transferencia bancaria.png"
-                                                alt="transferencia bancaria" style="width: 10%;">
-                                            Transferencia bancaria</p>
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="opcion_pago">
-                                <label for="bitcoin" class="logos nobr">
-                                    <input type="radio" name="tipo_pago" id="bitcoin" value="bitcoin"
-                                        class="radio_pago">
-                                    <span class="enlinea">
-                                        <p class="forma_de_pago"><img src="img/logobitcoin.png" alt="lobo bitcoin"
-                                                style="width: 10%;" class="nobr">
-                                            Bitcoin</p>
-                                    </span>
-                                </label>
+                        <div id="selectorPagoModal" class="modal">
+                            <div class="modalCont">
+                                <div class="modalCab">
+                                    <span onclick="closeModal(modal1)" class="cerrar">&times;</span>
+                                    <h2>Forma de pago</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="selectorDeFormaInModal">
+
+                                        <select id="selectorFormPagMod" class="input input_mod" required
+                                            onchange="formaPago('delmodal')">
+                                            <option value="" selected disabled>Seleccione su forma de pago</option>
+                                            <option value="TC" id="mod_TC" class="opcionpagomod TC">Tarjeta de crédito
+                                            </option>
+                                            <option value="TB" id="mod_TB" class="opcionpagomod TB">Transferencia
+                                                bancaria
+                                            </option>
+                                            <option value="" id="mod_BTC" class="opcionpagomod BTC">Bitcoin</option>
+                                        </select>
+                                    </div>
+                                    <div style="display: none;" id="opciones_TC_modal">
+                                        <input class="input_modal input_TC input" type="number"
+                                            placeholder="número de tarjeta" id="input_num_tarj">
+                                        <input class="input_modal input_TC input" type="number"
+                                            placeholder="código de seguirdad">
+                                        <label><span> fecha de vencimiento: </span><input class="input_modal input_TC input" type="date"
+                                            placeholder="fecha de vencimiento"></label>
+                                    </div>
+                                    <div style="display: none;" id="opciones_TB_modal">
+                                        <input class="input_modal input_TB input" type="number"
+                                            placeholder="número de cuenta">
+                                    </div>
+
+                                    <div style="display: none;" id="opciones_BTC_modal">
+                                        <h5>método invalido, por favor ingrese otro método de pago</h5>
+                                        <p>Todavía no hemos incorporado este método de pago, lo tendremos al tanto si
+                                            surgen
+                                            novedades, disculpe las molestias</p>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modalPie">
+                                    <button type="button" onclick="verificadorCompra()"
+                                        id="btnComprarMod" disabled>Comprar</button>
+                                </div>
+
+
+
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p><Strong>Total:</Strong>
-                            <a id="total"></a>
-                            <a>$UYU</a>
-                        </p>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-primary">Comprar</button>
+                    </form>
+                    <div>
+                        <div id="confirmacionModal" class="modal2">
+                            <div class="modalCont">
+                                <div class="modalCab">
+                                    <span onclick="closeModal(modal2)" class="cerrar">&times;</span>
+                                    <h2>Compra:</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="grid-container-modal2">
+                                        <div id="listprdconf" class="left-mdl-bdy">
+
+                                        </div>
+                                        <div id="listdatsconf" class="right-mdl-bdy">
+                                            <div>
+                                                <h3>El envío se efectuará a <sapn id="datosconf"></sapn></h3>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="modalPie">
+                                    <p><strong id="todalconf"></strong><strong> $USD</strong></p>
+                                    <button type="button" onclick="closeModal(modal2)">Cancelar</button>
+                                    <button type="button" onclick="confirmCompra()" id="btnConfComprarMod2">Confrirmar
+                                        compra</button>
+                                </div>
+
+
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="spinner-wrapper">
         <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
         </div>
     </div>
     <script src="js/jquery-3.4.1.min.js"></script>
