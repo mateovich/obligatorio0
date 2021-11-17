@@ -7,13 +7,7 @@ let comentariosObt;
 let productoObt;
 let listprductoObt;
 const prodIds = { "Chevrolet Onix Joy": "5678", "Fiat Way": undefined, "Suzuki Celerio": undefined, "Peugeot 208": undefined };
-let productoAñadible = {"name": undefined, "count": 1, "unitCost": undefined, "currency": undefined, "src": undefined}
-
-
-/*function quelugar(producto) {
-    return producto.name === productoEnCuestion;
-} */
-
+let productoAñadible = { "name": undefined, "count": 1, "unitCost": undefined, "currency": undefined, "src": undefined }
 
 
 
@@ -36,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
             }
         });
 
-
         getJSONData(PRODUCT_INFO_COMMENTS_URL + iDproductInfo + "-comments.json").then(function (result) {
             if (result.status === "ok") {
                 comentarios = result.data;
@@ -46,9 +39,34 @@ document.addEventListener("DOMContentLoaded", function (e) {
         });
 
     }
-
-
 });
+
+function agregarComent() {
+    console.log("fdsa")
+    if (comentChek.checkValidity() === true) {
+        console.log("fas")
+        datetime = new Date();
+        let newComent = {
+            "score": checkSocre(),
+            "description": document.getElementById("coment").value,
+            "user": JSON.parse(localStorage.getItem("datos")).usuario,
+            "dateTime": `${new Date().getFullYear()}-${datetime.getMonth() + 1}-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`
+        };
+        comentarios.push(newComent);
+        mostrar(producto, comentarios);
+    } else { console.log() }
+};
+
+
+function checkSocre() {
+    var elements = document.getElementsByName("puntuacion");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].checked) {
+            return parseInt(elements[i].value);
+        }
+    }
+
+}
 
 function mostrar(producto, comentarios) {
     let info = "";
@@ -69,15 +87,15 @@ function mostrar(producto, comentarios) {
         let comentario = comentarios[i];
         let puntaje = comentario.score;
         let restante = 5 - puntaje;
-        comentariosMarcados += `<strong>` + comentario.user + `</strong> dice:<br>`;
-        comentariosMarcados += `<p>` + comentario.description + `</p><br>`;
+        comentariosMarcados += `<p><strong>` + comentario.user + `</strong> (${comentario.dateTime}) dijo:<br></p>`;
+        comentariosMarcados += `<p>` + comentario.description + `</p>`;
         for (let j = 0; j < puntaje; j++) {
-            comentariosMarcados += `<span class="fa fa-star checked" id="star${j + 1}"></span>`
+            comentariosMarcados += `<span class="fa fa-star checked"></span>`
         }
         for (let k = 0; k < restante; k++) {
-            comentariosMarcados += `<span class="fa fa-star" id="star${puntaje + 1 + k}"></span>`
+            comentariosMarcados += `<span class="fa fa-star" ></span>`
         }
-        comentariosMarcados += `<br><hr>`
+        comentariosMarcados += `<hr>`
     }
 
     for (let i = 0; i < producto.relatedProducts.length; i++) {
@@ -96,21 +114,61 @@ function mostrar(producto, comentarios) {
     document.getElementById("comentarios").innerHTML = comentariosMarcados;
     document.getElementById("prodsrela").innerHTML = productosRelacionados;
     document.getElementById("inexistencia").innerHTML = "";
-    document.getElementById("posteador").innerHTML = `<textarea name="comentario" id="coment" cols="30" rows="10"></textarea>
+    if (localStorage.getItem("loguedUser") == "true") {
+        document.getElementById("posteador").innerHTML = `
+    <form id="comentChek">
+    <textarea  name="comentario" required placeholder="Ingrese su comentario aquí" id="coment" cols="30" rows="10"></textarea>
     <br>
-    <div id="puntaje_posteador">
-      <span class="fa fa-star" id="star1"></span>
-      <span class="fa fa-star" id="star2"></span>
-      <span class="fa fa-star" id="star3"></span>
-      <span class="fa fa-star" id="star4"></span>
-      <span class="fa fa-star" id="star5"></span>
+    <div class="puntaje_posteador" id="puntaje_posteador">
+
+        <input id="star-5" type="radio" name="puntuacion" value="5" />
+        <label for="star-5" title="5 stars">
+        <i class="active fa fa-star"></i>
+        </label>
+
+        <input id="star-4" type="radio" name="puntuacion" value="4" />
+        <label for="star-4" title="4 stars">
+        <i class="active fa fa-star"></i>
+        </label>
+
+        <input id="star-3" type="radio" name="puntuacion" value="3" />
+        <label for="star-3" title="3 stars">
+        <i class="active fa fa-star"></i>
+        </label>
+
+        <input id="star-2" type="radio" name="puntuacion" value="2" />
+        <label for="star-2" title="2 stars">
+        <i class="active fa fa-star"></i>
+        </label>
+
+        <input id="star-1" type="radio" name="puntuacion" value="1" />
+        <label for="star-1" title="1 stars">
+        <i class="active fa fa-star"></i>
+        </label>
+
+        <input id="star-0" type="radio" name="puntuacion" value="0" required checked />
+
     </div>
-    <br>
-    <br>
-    <button id="enviarComent">enviar</button>
-    <br>`
+    </form>
+    <button type="button" onclick="agregarComent()" id="enviarComent">enviar</button>
+    <br>` } else {
+        document.getElementById("posteador").innerHTML = '<p> Necesitas haber <a href="javascript: mandarIniciar()">iniciado sesión</a> para poder comentar</p>'
+    }
+
+
 
 };
+
+
+function mandarIniciar() {
+    localStorage.setItem('login-need', JSON.stringify({
+        pag: "product-info.html"
+    }));
+    window.location = "index.html"
+
+}
+
+
 
 function añadir() {
     var productoAAñardir = productoAñadible;
@@ -119,7 +177,7 @@ function añadir() {
     productoAAñardir["unitCost"] = producto.cost;
     productoAAñardir["currency"] = producto.currency;
     productoAAñardir["src"] = producto.images[1];
-    if(localStorage.getItem("carrito")) {
+    if (localStorage.getItem("carrito")) {
         let carrito = JSON.parse(localStorage.getItem("carrito"))
         carrito.push(productoAñadible);
         localStorage.setItem("carrito", JSON.stringify(carrito));

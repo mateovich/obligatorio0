@@ -135,10 +135,35 @@ a.custom-card:hover {
   color: inherit;
   text-decoration: inherit;
 }
-
+ /* estrellas */
 .checked {
   color: orange;
 }
+
+.puntaje_posteador {
+  direction: rtl;
+  display: inline-block;
+  padding: 20px
+}
+
+.puntaje_posteador input[type=radio] {
+  display: none
+}
+
+.puntaje_posteador label {
+  color: rgb(133, 142, 192);
+  font-size: 25px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.puntaje_posteador label:hover,
+.puntaje_posteador label:hover ~ label,
+.puntaje_posteador input[type=radio]:checked ~ label {
+  color: #ffbf00
+}
+
+/* estrellas */
 
 .img {
   margin-left: 10px;
