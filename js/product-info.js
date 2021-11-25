@@ -70,17 +70,34 @@ function checkSocre() {
 
 function mostrar(producto, comentarios) {
     let info = "";
-    let imgs = "";
+    let imgs1 = `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">`;
+    let imgs2 = "";
+    let imgs3 = `</div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>`;
     let comentariosMarcados = "";
     let productosRelacionados = "<br><h3>Productos Relacionados:</h3><hr>";
 
-    info += `<h2>${producto.name}</h2> <button type="button" onclick="añadir()">Añadir al carrito</button><br>
+    info += `<h2>${producto.name}</h2> <button type="button" onclick="añadir()">Añadir al carrito</button><span id="añadirMsg"></span><br>
     <h3>${producto.cost} ${producto.currency}</h3>
     <p>${producto.description}</p>`;
 
-    for (let i = 0; i < producto.images.length; i++) {
+    imgs2 += `<div class="carousel-item active">
+    <img src="${producto.images[0]}" class="d-block w-100">
+  </div>`
+    for (let i = 1; i < producto.images.length; i++) {
         let imagen = producto.images[i];
-        imgs += `<img class="img" src="${imagen}" width="188px" height="" alt="${producto.name}" >`;
+        imgs2 += `<div class="carousel-item">
+      <img src="${imagen}" class="d-block w-100">
+    </div>`;
     }
 
     for (let i = 0; i < comentarios.length; i++) {
@@ -110,7 +127,7 @@ function mostrar(producto, comentarios) {
 
 
     document.getElementById("contenido").innerHTML = info;
-    document.getElementById("imagenes").innerHTML = imgs;
+    document.getElementById("imagenes").innerHTML = imgs1 + imgs2 + imgs3;
     document.getElementById("comentarios").innerHTML = comentariosMarcados;
     document.getElementById("prodsrela").innerHTML = productosRelacionados;
     document.getElementById("inexistencia").innerHTML = "";
@@ -172,17 +189,35 @@ function mandarIniciar() {
 
 function añadir() {
     var productoAAñardir = productoAñadible;
-    console.log(productoAAñardir);
     productoAAñardir["name"] = producto.name;
     productoAAñardir["unitCost"] = producto.cost;
     productoAAñardir["currency"] = producto.currency;
     productoAAñardir["src"] = producto.images[1];
     if (localStorage.getItem("carrito")) {
+
+
+        let estaProducto = false;
+        let carroEstado_length = JSON.parse(localStorage.getItem("carrito")).length;
+        for (i = 0; i < carroEstado_length; i++) {
+            if (JSON.parse(localStorage.getItem("carrito"))[i].name == producto.name) {
+                estaProducto = true
+            }
+        }
+        if (estaProducto) {
+            document.getElementById("añadirMsg").innerHTML = "El producto ya está en el carrito"
+        } else {
+
+
         let carrito = JSON.parse(localStorage.getItem("carrito"))
         carrito.push(productoAñadible);
         localStorage.setItem("carrito", JSON.stringify(carrito));
+        document.getElementById("añadirMsg").innerHTML = "El producto fue añadido con éxito"
+        }
     } else {
-        localStorage.setItem("carrito", JSON.stringify(productoAAñardir));
+        let lista = [];
+        lista.push(productoAAñardir);
+        localStorage.setItem("carrito", JSON.stringify(lista));
+        document.getElementById("añadirMsg").innerHTML = "El producto fue añadido con éxito"
     }
 }
 

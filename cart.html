@@ -263,7 +263,7 @@
                                         </div>
                                         <div style="text-align: center;" class="row">
                                             <div style="margin-right: 15px;" class="col">
-                                                <select id="selectorPais" class="input input_pag" required>
+                                                <select id="selectorPais" class="input input_pag" name="país" required>
                                                     <option selected disabled value="">Seleccione su país</option>
                                                     <option value="uy">Uruguay</option>
                                                     <option value="ar">Argentina</option>
@@ -272,12 +272,12 @@
                                                 </select>
                                             </div>
                                             <div class="col">
-                                                <input type="text" placeholder="Localidad" class="input input_pag"
+                                                <input type="text" placeholder="Localidad" name="localidad" class="input input_pag"
                                                     required>
-                                                <input type="text" placeholder="Calle" class="input input_pag" required>
-                                                <input type="number" min="1" max="1000" placeholder="Número"
+                                                <input type="text" placeholder="Calle" name="calle" class="input input_pag" required>
+                                                <input type="number" min="1" max="1000" name="numeroDePuerta" placeholder="Número"
                                                     class="input input_pag" required>
-                                                <input type="text" placeholder="Esquina" class="input input_pag"
+                                                <input type="text" placeholder="Esquina" name="esquina" class="input input_pag"
                                                     required>
                                             </div>
                                         </div>
@@ -384,7 +384,7 @@
                                     <div class="selectorDeFormaInModal">
 
                                         <select id="selectorFormPagMod" class="input input_mod" required
-                                            onchange="formaPago('delmodal')">
+                                            onchange="formaPago('delmodal')" name="formaDePago">
                                             <option value="" selected disabled>Seleccione su forma de pago</option>
                                             <option value="TC" id="mod_TC" class="opcionpagomod TC">Tarjeta de crédito
                                             </option>
@@ -396,15 +396,15 @@
                                     </div>
                                     <div style="display: none;" id="opciones_TC_modal">
                                         <input class="input_modal input_TC input" type="number"
-                                            placeholder="número de tarjeta" id="input_num_tarj">
+                                            placeholder="número de tarjeta" name="numeroTarjeta" id="input_num_tarj" min="999">
                                         <input class="input_modal input_TC input" type="number"
-                                            placeholder="código de seguirdad">
+                                            placeholder="código de seguirdad" name="codigoSeguridad" min="99">
                                         <label><span> fecha de vencimiento: </span><input class="input_modal input_TC input" type="date"
-                                            placeholder="fecha de vencimiento"></label>
+                                            placeholder="fecha de vencimiento" name="fechaVencimiento"></label>
                                     </div>
                                     <div style="display: none;" id="opciones_TB_modal">
                                         <input class="input_modal input_TB input" type="number"
-                                            placeholder="número de cuenta">
+                                            placeholder="número de cuenta" name="numeroCuenta" min="99">
                                     </div>
 
                                     <div style="display: none;" id="opciones_BTC_modal">

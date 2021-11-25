@@ -46,6 +46,34 @@ var getJSONData = function (url) {
     });
 }
 
+var postJSONData = function (url, obj) {
+  var result = {};
+  console.log(result);
+  return fetch(url, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(obj)
+  })
+
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              throw Error(response.statusText);
+          }
+      })
+      .then(function (response) {
+          result.status = 'ok';
+          result.data = response;
+          return result;
+      }).catch(function (error) { result.status = 'error'; result.data = error; return alert(result); });
+}
+
+
+
+
 if (localStorage.getItem("datos")) {
   usuariologueado = true;
   let datosaIngresar_json = localStorage.getItem("datos");

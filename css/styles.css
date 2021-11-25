@@ -171,3 +171,10 @@ a.custom-card:hover {
   
 
 }
+
+/* carrousel */
+
+.carousel {
+   width:640px;
+  height:360px;
+}
